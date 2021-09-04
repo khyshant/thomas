@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block header_img %}{% endblock %}
+
+{% block header_title %}<h1>Liste des taches</h1>{% endblock %}
+
+{% block body %}
+    {% if tasks | length < 1 %}
+        <h2>Aucune taches enregistrée</h2>
+        <a href="{{ path('task_create') }}" class="btn btn-info">Créer une tâche</a>
+    {% endif %}
+    <a href="{{ path('task_create') }}" class="btn btn-info">Créer une tâche</a>
+    <div class="row mt-3">
+
+        {% for task in tasks %}
+            <div class="col-sm-4 col-lg-4 col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="float-right">
+                            {% if task.done %}<span><i class="fas fa-check"></i></span>{% else %}<span><i class="fas fa-times"></i></span>{% endif %}
+                        </h4>
+                        <h4><a href="{{ path('task_update', {'id' : task.id }) }}">{{ task.title }}</a></h4>
+                        <p>{{ task.description }}</p>
+                        <p>Auteur : {{ task.user.username }}</p>
+                    </div>
+                </div>
+
+                <div class="text-center mt-2 mb-2">
+                    <a href="{{ path('task_valid', {'id' : task.id }) }}" class="btn btn-success btn-sm">
+                        {% if not task.done %}<i class="fas fa-check"></i>{% else %}<i class="fas fa-times"></i>{% endif %}
+                    </a>
+                    <a href="{{ path('task_update', {'id': task.id}) }}" class="btn btn-warning btn-sm text-white">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    {% if app.user == task.user or app.user.roles[0] == "ADMIN" %}
+
+                        <a href="{# {{ path('task_delete', {'id' : task.id }) }} #}" class="btn btn-danger btn-sm">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

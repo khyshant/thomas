@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block header_img %}{% endblock %}
+
+{% block header_title %}<h1>Liste des utilisateurs</h1>{% endblock %}
+
+{% block body %}
+    {% if users|length == 0 %}
+        <div class="alert alert-warning" role="alert">
+            aucun utilisateur enregistré pour le moment. <a href="{# {{ path('user_create') }} #}" class="btn btn-warning pull-right">Créer un utilisateur</a>
+        </div>
+    {% else %}
+        <div class="row">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Username</th>
+                    <th>email</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for user in users %}
+
+                    <tr>
+                        <th scope="row">{{ loop.index }}</th>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>
+                            <a href=" {{ path('user_update', {'id' : user.id}) }}" class="btn btn-success btn-sm">Modifier</a>
+                        </td>
+                    </tr>
+{# {{ dump(user)}}
+                    <div class="d-none" id="user-{{ user.username }}" style="">
+                        <p>{{ user.id }}</p>
+                    </div>
+#}
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">Ajouter une tache</div>
+                {{ form_start(form) }}
+                    {{ form_widget(form._token) }}
+                    <div class="card-body">
+                        {{ include("task/_form.html.twig", { form: form }) }}
+                    </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
